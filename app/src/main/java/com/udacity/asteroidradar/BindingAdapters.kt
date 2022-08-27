@@ -2,7 +2,22 @@ package com.udacity.asteroidradar
 
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+
+@BindingAdapter("imageUrl")
+fun bindImage(imgView: ImageView , imgUrl: String?){
+    imgUrl?.let {
+        val imgUrl = it.toUri().buildUpon().scheme("https").build()
+        Glide.with(imgView.context)
+            .load(imgUrl)
+            .apply(RequestOptions()
+                .placeholder(R.drawable.placeholder_picture_of_day))
+            .into(imgView)
+    }
+}
 
 @BindingAdapter("statusIcon")
 fun bindAsteroidStatusImage(imageView: ImageView, isHazardous: Boolean) {
