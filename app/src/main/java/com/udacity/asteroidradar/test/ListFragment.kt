@@ -1,15 +1,12 @@
-package com.udacity.asteroidradar
+package com.udacity.asteroidradar.test
 
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
+import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.FragmentListBinding
-import com.udacity.asteroidradar.main.ListAdapter
 
 class ListFragment : Fragment() {
 

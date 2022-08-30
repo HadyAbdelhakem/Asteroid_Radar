@@ -8,6 +8,8 @@ import com.udacity.asteroidradar.api.AsteroidFilter
 import com.udacity.asteroidradar.api.NasaApi
 import com.udacity.asteroidradar.api.PictureOfDayApi
 import com.udacity.asteroidradar.api.parseAsteroidsJsonResult
+import com.udacity.asteroidradar.database.AsteroidDatabase
+import com.udacity.asteroidradar.database.AsteroidRepository
 import kotlinx.coroutines.*
 import org.json.JSONObject
 import retrofit2.Call

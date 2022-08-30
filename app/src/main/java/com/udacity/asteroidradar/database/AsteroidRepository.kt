@@ -1,6 +1,7 @@
-package com.udacity.asteroidradar
+package com.udacity.asteroidradar.database
 
 import androidx.lifecycle.LiveData
+import com.udacity.asteroidradar.Asteroid
 
 class AsteroidRepository(private val asteroidDao: AsteroidDao) {
 
