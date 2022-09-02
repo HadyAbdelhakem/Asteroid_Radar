@@ -22,8 +22,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val readAllData: LiveData<List<Asteroid>>
     private val repository: AsteroidRepository
 
+    private val _asteroidStatus = MutableLiveData<String>()
+
     val picResponse: LiveData<PictureOfDay>
         get() = _picResponse
+
+    val asteroidStatus: LiveData<String>
+        get() = _asteroidStatus
 
     private val viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
@@ -45,11 +50,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private suspend fun getNasaApiData(end_date: AsteroidFilter) {
         withContext(Dispatchers.IO) {
             try {
-                repository.deleteAllAsteroid()
                 var jsonResult = NasaApi.retrofitService.getAsteroid(
                     Constants.START_DATE,
                     end_date.value,
-                    Constants.API_KEY)
+                    Constants.API_KEY
+                )
                 val resultArrayList = parseAsteroidsJsonResult(JSONObject(jsonResult))
                 addNewAsteroid(resultArrayList)
                 Log.i("Connected_Success", "Successful Added")
@@ -78,23 +83,32 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun addNewAsteroid(asteroid: List<Asteroid>) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             for (element in asteroid) {
                 repository.addAsteroid(element)
+                if (element.isHazadous){
+                    _asteroidStatus.value = "The asteroid is hazardous"
+                }
+                else{
+                    _asteroidStatus.value = "The asteroid is safe"
+                }
             }
         }
     }
 
-    fun displayAsteroidDetails(asteroid: Asteroid){
+    fun displayAsteroidDetails(asteroid: Asteroid) {
         _navigateToSelectedAsteroid.value = asteroid
     }
 
-    fun displayAsteroidDetailsComplete(){
+    fun displayAsteroidDetailsComplete() {
         _navigateToSelectedAsteroid.value = null
     }
 
-    fun updateFilter(end_date: AsteroidFilter){
+    fun updateFilter(end_date: AsteroidFilter) {
         coroutineScope.launch {
+            if (end_date.value == Constants.START_DATE) {
+                repository.deleteAllAsteroid()
+            }
             getNasaApiData(end_date)
         }
 

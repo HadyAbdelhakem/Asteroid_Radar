@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             app:asteroidStatusImage="@{viewModel.selectedAsteroid.hazadous}"
-            android:contentDescription="@string/status_image"
+            android:contentDescription="@{viewModel.asteroidStatus}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

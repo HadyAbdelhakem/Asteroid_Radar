@@ -14,8 +14,18 @@ class DetailViewModel(asteroid: Asteroid, app: Application) : AndroidViewModel(a
     val selectedAsteroid: LiveData<Asteroid>
         get() = _selectedAsteroid
 
+    private val _asteroidStatus = MutableLiveData<String>()
+    val asteroidStatus: LiveData<String>
+        get() = _asteroidStatus
+
     init {
         _selectedAsteroid.value = asteroid
+        if (asteroid.isHazadous){
+            _asteroidStatus.value = "The asteroid is hazardous"
+        }
+        else{
+            _asteroidStatus.value = "The asteroid is safe"
+        }
     }
 
 
